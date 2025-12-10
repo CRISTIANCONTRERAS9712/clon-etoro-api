@@ -3,18 +3,12 @@ package com.clon.etoro.infraestructure.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.clon.etoro.application.usecase.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.clon.etoro.application.usecase.CreateUserRequest;
-import com.clon.etoro.application.usecase.CreateUserUseCase;
-import com.clon.etoro.application.usecase.GetAllUserUseCase;
 import com.clon.etoro.domain.model.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +22,12 @@ public class UserController {
 
 	private final CreateUserUseCase createUserUseCase;
 	private final GetAllUserUseCase getAllUsersUseCase;
+    private final UpdateUserUseCase updateUserUseCase;
 
-	public UserController(CreateUserUseCase createUserUseCase, GetAllUserUseCase getAllUsersUseCase) {
+	public UserController(CreateUserUseCase createUserUseCase, GetAllUserUseCase getAllUsersUseCase, UpdateUserUseCase updateUserUseCase) {
 		this.createUserUseCase = createUserUseCase;
 		this.getAllUsersUseCase = getAllUsersUseCase;
+        this.updateUserUseCase = updateUserUseCase;
 	}
 
 	/***
@@ -60,8 +56,17 @@ public class UserController {
 //				);
 		
 	}
-	
-	@GetMapping("/hello")
+
+    @PutMapping("/update")
+    public Mono<ResponseEntity<User>> update(
+            @RequestBody UpdateUserRequest request) {
+
+        return updateUserUseCase.execute(request)
+                .map(ResponseEntity::ok);
+    }
+
+
+    @GetMapping("/hello")
 	public Mono<ResponseEntity<String>> hello() {
 		return Mono.just(ResponseEntity.ok("Hello netty!"));
 	}

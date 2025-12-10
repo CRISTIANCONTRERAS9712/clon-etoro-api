@@ -83,4 +83,13 @@ public class InMemoryUserRepositoryAdapter implements UserRepositoryPort {
 //		return users;
 	}
 
+    @Override
+    public Mono<User> findById(Long id) {
+        return Mono.justOrEmpty(
+                users.stream()
+                        .filter(u -> u.getIdUser().equals(id))
+                        .findFirst()
+        );
+    }
+
 }

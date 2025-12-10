@@ -12,4 +12,5 @@ public interface UserRepositoryPort {
 	Mono<User> update(User u);
 	Mono<User> getByEmail(String email);
 	Flux<User> findAll();
+    Mono<User> findById(Long id);
 }

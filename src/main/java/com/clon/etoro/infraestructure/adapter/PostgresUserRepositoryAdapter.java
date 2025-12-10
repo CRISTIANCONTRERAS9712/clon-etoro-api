@@ -55,6 +55,13 @@ public class PostgresUserRepositoryAdapter implements UserRepositoryPort {
 		return reactiveRepo.findAll().map(this::toDomain);
 	}
 
+    @Override
+    public Mono<User> findById(Long id) {
+        return reactiveRepo.findById(id)
+                .map(this::toDomain);
+    }
+
+
 	// -------------------------------------------------------
 	// MAPPERS (Entity <-> Domain)
 	// -------------------------------------------------------

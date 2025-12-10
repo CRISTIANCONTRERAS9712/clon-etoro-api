@@ -1,5 +1,6 @@
 package com.clon.etoro.infraestructure.config;
 
+import com.clon.etoro.application.usecase.UpdateUserUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -43,5 +44,10 @@ public class BeansConfig {
     @Bean
     GetAllUserUseCase getAllUserUseCase(UserRepositoryPort repo, CountryRepositoryPort countryRepo) {
         return new GetAllUserUseCase(repo, countryRepo);
+    }
+
+    @Bean
+    UpdateUserUseCase updateUserUseCase(UserRepositoryPort repo, CountryRepositoryPort countryRepo) {
+        return new UpdateUserUseCase(repo, countryRepo);
     }
 }
