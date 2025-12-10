@@ -24,16 +24,34 @@ public class UpdateUserUseCase {
                                 .flatMap(country -> {
 
                                     // Actualizar datos excepto el email
-                                    existingUser.setFirstname(updateUserRequest.getFirstname());
-                                    existingUser.setLastname(updateUserRequest.getLastname());
-                                    existingUser.setCellphone(updateUserRequest.getCellphone());
-                                    existingUser.setPassword(updateUserRequest.getPassword());
-                                    existingUser.setBirthdate(updateUserRequest.getBirthdate());
+                                    // Actualizar datos solo si vienen en el request (no null)
+                                    if (updateUserRequest.getFirstname() != null) {
+                                        existingUser.setFirstname(updateUserRequest.getFirstname());
+                                    }
+
+                                    if (updateUserRequest.getLastname() != null) {
+                                        existingUser.setLastname(updateUserRequest.getLastname());
+                                    }
+
+                                    if (updateUserRequest.getCellphone() != null) {
+                                        existingUser.setCellphone(updateUserRequest.getCellphone());
+                                    }
+
+                                    if (updateUserRequest.getPassword() != null) {
+                                        existingUser.setPassword(updateUserRequest.getPassword());
+                                    }
+
+                                    if (updateUserRequest.getBirthdate() != null) {
+                                        existingUser.setBirthdate(updateUserRequest.getBirthdate());
+                                    }
 
                                     // Asignar país
                                     existingUser.setCountry(country);
 
-                                    return userRepo.update(existingUser);
+                                    return userRepo.update(existingUser).map(updatedUser -> {
+                                        updatedUser.setCountry(country);
+                                        return updatedUser;
+                                    });
                                 })
                 );
     }
