@@ -10,18 +10,24 @@ import com.clon.etoro.domain.port.UserRepositoryPort;
 import com.clon.etoro.domain.service.UserDomainService;
 import com.clon.etoro.infraestructure.adapter.InMemoryCountryRepositoryAdapter;
 import com.clon.etoro.infraestructure.adapter.InMemoryUserRepositoryAdapter;
+import com.clon.etoro.infraestructure.adapter.PostgresCountryRepositoryAdapter;
+import com.clon.etoro.infraestructure.adapter.PostgresUserRepositoryAdapter;
+import com.clon.etoro.infraestructure.repository.SpringDataCountryRepository;
+import com.clon.etoro.infraestructure.repository.SpringDataUserRepository;
 
 @Configuration
 public class BeansConfig {
 	
 	@Bean
-	UserRepositoryPort createUserRepository() {
-		return new InMemoryUserRepositoryAdapter();
+	UserRepositoryPort createUserRepository(SpringDataUserRepository springRepo) {
+//		return new InMemoryUserRepositoryAdapter();
+		return new PostgresUserRepositoryAdapter(springRepo);
 	}
 	
 	@Bean
-	CountryRepositoryPort createCountryRepository() {
-		return new InMemoryCountryRepositoryAdapter();
+	CountryRepositoryPort createCountryRepository(SpringDataCountryRepository springRepo) {
+//		return new InMemoryCountryRepositoryAdapter();
+		return new PostgresCountryRepositoryAdapter(springRepo);
 	}
 	
 	@Bean
@@ -35,7 +41,7 @@ public class BeansConfig {
     }
 
     @Bean
-    GetAllUserUseCase getAllUserUseCase(UserRepositoryPort repo) {
-        return new GetAllUserUseCase(repo);
+    GetAllUserUseCase getAllUserUseCase(UserRepositoryPort repo, CountryRepositoryPort countryRepo) {
+        return new GetAllUserUseCase(repo, countryRepo);
     }
 }

@@ -2,14 +2,12 @@ package com.clon.etoro.domain.service;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.logging.Level;
 
 import com.clon.etoro.domain.model.Country;
 import com.clon.etoro.domain.model.User;
 import com.clon.etoro.domain.port.CountryRepositoryPort;
 import com.clon.etoro.domain.port.UserRepositoryPort;
 
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 public class UserDomainService {
@@ -32,7 +30,7 @@ public class UserDomainService {
 
 		//Validación 2: (Lógica Asíncrona/Reactiva)
 		return countryRepositoryPort.getCountryByCodeIso(user.getCountry().getIsoCountry())
-				.doOnNext(country -> System.out.println("DEBUG MANUAL: Resultado de getCountryByCodeIso: " + country))
+				.doOnNext(country -> System.out.println("DEBUG MANUAL: Resultado de getCountryByCodeIso: " + country.getIdCountry()))
 				.switchIfEmpty(Mono.error(new RuntimeException("Country no encontrado"))) // Si no encuentra el país, lanza error aquí.
 				.flatMap(countryFound -> {
 					if(!countryFound.getActive()) {

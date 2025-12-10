@@ -1,5 +1,8 @@
 package com.clon.etoro.domain.model;
 
+import lombok.Data;
+
+@Data
 public class Asset {
 	private Long idAsset;
 	private String ticker;

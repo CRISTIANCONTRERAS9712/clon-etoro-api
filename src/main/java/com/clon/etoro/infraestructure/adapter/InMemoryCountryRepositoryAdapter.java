@@ -19,14 +19,15 @@ public class InMemoryCountryRepositoryAdapter implements CountryRepositoryPort {
 private final List<Country> countries = new ArrayList<>();
 	
     public InMemoryCountryRepositoryAdapter() {
-    	countries.add(new Country(1L, "CO", "Colombia", Boolean.TRUE));
-    	countries.add(new Country(2L, "US", "Estados Unidos", Boolean.TRUE));
-    	countries.add(new Country(3L, "MX", "Mexico", Boolean.FALSE));
+    	countries.add(new Country(1L, "CO", "Colombiaaaa", Boolean.TRUE));
+    	countries.add(new Country(2L, "US", "Estados Unidossss", Boolean.TRUE));
+    	countries.add(new Country(3L, "MX", "Mexicoooo", Boolean.FALSE));
     }
 
 	@Override
-	public boolean isCountryActive(String isoCode) {
-		return countries.stream().anyMatch(country -> country.getIsoCountry().equals(isoCode) && country.getActive());
+	public Mono<Boolean> isCountryActive(String isoCode) {
+		 Boolean isActive = countries.stream().anyMatch(country -> country.getIsoCountry().equals(isoCode) && country.getActive());
+		 return Mono.just(isActive);
 	}
 
 	@Override
@@ -36,6 +37,14 @@ private final List<Country> countries = new ArrayList<>();
 				.findFirst();
 		return Mono.justOrEmpty(foundCountry);
 //		return countries.stream().filter(country -> country.getIsoCountry().equals(isoCode)).findAny();
+	}
+
+	@Override
+	public Mono<Country> getCountryById(Long id) {
+		Optional<Country> foundCountry = countries.stream()
+				.filter(country -> country.getIdCountry().equals(id))
+				.findFirst();
+		return Mono.justOrEmpty(foundCountry);
 	}
 
 }
