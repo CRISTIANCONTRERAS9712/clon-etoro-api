@@ -5,38 +5,37 @@ import org.springframework.context.annotation.Configuration;
 
 import com.clon.etoro.application.usecase.CreateUserUseCase;
 import com.clon.etoro.application.usecase.GetAllUserUseCase;
-import com.clon.etoro.domain.port.CountryRepository;
-import com.clon.etoro.domain.port.UserRepository;
+import com.clon.etoro.domain.port.CountryRepositoryPort;
+import com.clon.etoro.domain.port.UserRepositoryPort;
 import com.clon.etoro.domain.service.UserDomainService;
 import com.clon.etoro.infraestructure.adapter.InMemoryCountryRepositoryAdapter;
 import com.clon.etoro.infraestructure.adapter.InMemoryUserRepositoryAdapter;
-import com.clon.etoro.infraestructure.adapter.InMemoryUserRepositoryAdapter2;
 
 @Configuration
 public class BeansConfig {
 	
 	@Bean
-	UserRepository createUserRepository() {
-		return new InMemoryUserRepositoryAdapter2();
+	UserRepositoryPort createUserRepository() {
+		return new InMemoryUserRepositoryAdapter();
 	}
 	
 	@Bean
-	CountryRepository createCountryRepository() {
+	CountryRepositoryPort createCountryRepository() {
 		return new InMemoryCountryRepositoryAdapter();
 	}
 	
 	@Bean
-	UserDomainService createUserDomainService(UserRepository repo) {
-		return new UserDomainService(repo);
+	UserDomainService createUserDomainService(UserRepositoryPort repo, CountryRepositoryPort countryRepo) {
+		return new UserDomainService(repo, countryRepo);
 	}
 
 	@Bean
-    CreateUserUseCase createUserUseCase(UserRepository repo, UserDomainService userDomainService, CountryRepository countryRepo) {
+    CreateUserUseCase createUserUseCase(UserRepositoryPort repo, UserDomainService userDomainService, CountryRepositoryPort countryRepo) {
         return new CreateUserUseCase(repo, userDomainService, countryRepo);
     }
 
     @Bean
-    GetAllUserUseCase getAllUserUseCase(UserRepository repo) {
+    GetAllUserUseCase getAllUserUseCase(UserRepositoryPort repo) {
         return new GetAllUserUseCase(repo);
     }
 }

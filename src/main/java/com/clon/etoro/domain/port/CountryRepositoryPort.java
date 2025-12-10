@@ -6,7 +6,9 @@ import java.util.Optional;
 import com.clon.etoro.domain.model.Country;
 import com.clon.etoro.domain.model.User;
 
-public interface CountryRepository {
+import reactor.core.publisher.Mono;
+
+public interface CountryRepositoryPort {
 	boolean isCountryActive(String isoCode);
-	Optional<Country> getCountryByCodeIso(String isoCode);
+	Mono<Country> getCountryByCodeIso(String isoCode);
 }

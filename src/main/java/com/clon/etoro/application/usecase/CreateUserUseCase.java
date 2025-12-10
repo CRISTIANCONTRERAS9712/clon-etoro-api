@@ -2,28 +2,37 @@ package com.clon.etoro.application.usecase;
 
 import com.clon.etoro.domain.model.Country;
 import com.clon.etoro.domain.model.User;
-import com.clon.etoro.domain.port.CountryRepository;
-import com.clon.etoro.domain.port.UserRepository;
+import com.clon.etoro.domain.port.CountryRepositoryPort;
+import com.clon.etoro.domain.port.UserRepositoryPort;
 import com.clon.etoro.domain.service.UserDomainService;
 
+import reactor.core.publisher.Mono;
+
+//Caso de Uso (Puro)
 public class CreateUserUseCase {
 
-	private final UserRepository userRepo;
-	private final CountryRepository countryRepo;
+	private final UserRepositoryPort userRepo;
+	private final CountryRepositoryPort countryRepo;
 	private final UserDomainService service;
 
-	public CreateUserUseCase(UserRepository userRepo, UserDomainService service, CountryRepository countryRepo) {
+	public CreateUserUseCase(UserRepositoryPort userRepo, UserDomainService service, CountryRepositoryPort countryRepo) {
 		this.userRepo = userRepo;
 		this.service = service;
 		this.countryRepo = countryRepo;
 	}
 
-	public User execute(CreateUserRequest createUser) {
-		Country country = countryRepo.getCountryByCodeIso(createUser.isoCountry())
-				.orElseThrow(() -> new RuntimeException("Country invalido, no existe"));
-		User u = new User(null, createUser.firstname(), createUser.lastname(), createUser.email(),
-				createUser.birthday(), createUser.password(), createUser.cellphone(), country);
-		service.validateUserCreation(u);
-		return userRepo.save(u);
+	public Mono<User> execute(CreateUserRequest createUser) {
+		//Lógica de negocio pura
+		
+		User u = new User(
+				null, 
+				createUser.firstname(), 
+				createUser.lastname(), 
+				createUser.email(),
+				createUser.birthday(), 
+				createUser.password(), 
+				createUser.cellphone(), 
+				new Country(createUser.isoCountry()));
+		return service.validateUserCreation(u);
 	}
 }

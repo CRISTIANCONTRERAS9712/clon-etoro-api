@@ -11,6 +11,11 @@ public class Country {
 		super();
 	}
 	
+	public Country(String isoCountry) {
+		super();
+		this.isoCountry = isoCountry;
+	}
+	
 	public Country(Long idCountry, String isoCountry, String name, Boolean active) {
 		super();
 		this.idCountry = idCountry;

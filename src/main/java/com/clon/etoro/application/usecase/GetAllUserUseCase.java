@@ -3,17 +3,19 @@ package com.clon.etoro.application.usecase;
 import java.util.List;
 
 import com.clon.etoro.domain.model.User;
-import com.clon.etoro.domain.port.UserRepository;
+import com.clon.etoro.domain.port.UserRepositoryPort;
+
+import reactor.core.publisher.Flux;
 
 public class GetAllUserUseCase {
 
-	private final UserRepository repo;
+	private final UserRepositoryPort repo;
 
-    public GetAllUserUseCase(UserRepository repo) {
+    public GetAllUserUseCase(UserRepositoryPort repo) {
         this.repo = repo;
     }
 
-    public List<User> execute() {
+    public Flux<User> execute() {
         return repo.findAll();
     }
 }

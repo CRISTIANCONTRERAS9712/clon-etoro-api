@@ -9,10 +9,12 @@ import java.util.Optional;
 
 import com.clon.etoro.domain.model.Country;
 import com.clon.etoro.domain.model.User;
-import com.clon.etoro.domain.port.CountryRepository;
-import com.clon.etoro.domain.port.UserRepository;
+import com.clon.etoro.domain.port.CountryRepositoryPort;
+import com.clon.etoro.domain.port.UserRepositoryPort;
 
-public class InMemoryCountryRepositoryAdapter implements CountryRepository {
+import reactor.core.publisher.Mono;
+
+public class InMemoryCountryRepositoryAdapter implements CountryRepositoryPort {
 	
 private final List<Country> countries = new ArrayList<>();
 	
@@ -28,8 +30,12 @@ private final List<Country> countries = new ArrayList<>();
 	}
 
 	@Override
-	public Optional<Country> getCountryByCodeIso(String isoCode) {
-		return countries.stream().filter(country -> country.getIsoCountry().equals(isoCode)).findAny();
+	public Mono<Country> getCountryByCodeIso(String isoCode) {
+		Optional<Country> foundCountry = countries.stream()
+				.filter(country -> country.getIsoCountry().equals(isoCode))
+				.findFirst();
+		return Mono.justOrEmpty(foundCountry);
+//		return countries.stream().filter(country -> country.getIsoCountry().equals(isoCode)).findAny();
 	}
 
 }
