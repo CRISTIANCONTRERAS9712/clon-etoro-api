@@ -15,6 +15,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.clon.etoro.application.usecase.CreateUserRequest;
 import com.clon.etoro.application.usecase.CreateUserUseCase;
+import com.clon.etoro.application.usecase.DeleteUserUseCase;
 import com.clon.etoro.application.usecase.GetAllUserUseCase;
 import com.clon.etoro.application.usecase.GetByIdUserUseCase;
 import com.clon.etoro.application.usecase.UpdateUserRequest;
@@ -42,6 +43,9 @@ public class UserControllerUnitTestMockito {
 
     @MockitoBean
     private GetByIdUserUseCase getByIdUserUseCase;
+    
+    @MockitoBean
+    private DeleteUserUseCase deleteUserUseCase;
     
     // Métodos auxiliares para crear datos de prueba (DRY principle)
     private Country defaultCountry;
@@ -143,7 +147,8 @@ public class UserControllerUnitTestMockito {
         Long nonExistentUserId = 99L;
         // Asumiendo que tu controlador maneja la excepción del UseCase y la convierte en un 404
         Mockito.when(getByIdUserUseCase.execute(nonExistentUserId))
-                .thenReturn(Mono.empty()); // Usualmente un Mono.empty() resulta en 404 en Spring WebFlux
+                //.thenReturn(Mono.empty()); // Usualmente un Mono.empty() resulta en 404 en Spring WebFlux
+        		.thenReturn(Mono.error(new RuntimeException("Usuario no encontrado")));
 
         webClient.get().uri("/users/{id}", nonExistentUserId)
                 .exchange()
