@@ -26,7 +26,8 @@ public class UserController {
 	private final GetAllUserUseCase getAllUsersUseCase;
 	private final UpdateUserUseCase updateUserUseCase;
 	private final GetByIdUserUseCase getByIdUserUseCase;
-
+    private final DeleteUserUseCase deleteUserUseCase;
+    
 	/***
 	 * 
 	 * { "firstname": "Mateo", "lastname": "Corredor", "email": "m2@gmail.com",
@@ -53,7 +54,13 @@ public class UserController {
 		return updateUserUseCase.execute(request).map(ResponseEntity::ok);
 	}
 
-	@GetMapping("/hello")
+    @DeleteMapping("/delete")
+    public Mono<ResponseEntity<String>> delete(@RequestBody DeleteUserRequest request) {
+        return deleteUserUseCase.execute(request.getId())
+                .thenReturn(ResponseEntity.ok("Usuario eliminado correctamente"));
+    }
+
+    @GetMapping("/hello")
 	public Mono<ResponseEntity<String>> hello() {
 		return Mono.just(ResponseEntity.ok("Hello netty!"));
 	}

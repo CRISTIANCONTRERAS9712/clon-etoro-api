@@ -92,4 +92,11 @@ public class InMemoryUserRepositoryAdapter implements UserRepositoryPort {
         );
     }
 
+    @Override
+    public Mono<Void> deleteById(Long id) {
+        users.remove(id);
+        return Mono.empty(); // equivalente a reactiveRepo.deleteById()
+    }
+
+
 }
