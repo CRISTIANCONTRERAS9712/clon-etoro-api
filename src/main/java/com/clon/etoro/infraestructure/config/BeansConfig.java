@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.clon.etoro.application.usecase.CreateUserUseCase;
 import com.clon.etoro.application.usecase.GetAllUserUseCase;
+import com.clon.etoro.application.usecase.GetByIdUserUseCase;
 import com.clon.etoro.domain.port.CountryRepositoryPort;
 import com.clon.etoro.domain.port.UserRepositoryPort;
 import com.clon.etoro.domain.service.UserDomainService;
@@ -39,6 +40,11 @@ public class BeansConfig {
 	@Bean
     CreateUserUseCase createUserUseCase(UserRepositoryPort repo, UserDomainService userDomainService, CountryRepositoryPort countryRepo) {
         return new CreateUserUseCase(repo, userDomainService, countryRepo);
+    }
+	
+	@Bean
+	GetByIdUserUseCase getByIdUserUseCase(UserRepositoryPort repo, CountryRepositoryPort countryRepo) {
+        return new GetByIdUserUseCase(repo, countryRepo);
     }
 
     @Bean

@@ -8,13 +8,32 @@ import java.time.LocalDate;
 public class UpdateUserRequest {
 
     private Long id;          // ahora el ID viene en el request
-    private String email;     // solo informativo, NO se actualiza
-    private String isoCountry;   // para actualizar country_id
     private String firstname;
     private String lastname;
+    private String email;     // solo informativo, NO se actualiza
+    private String isoCountry;   // para actualizar country_id
     private String cellphone;
     private LocalDate birthdate;
     private String password;
+    
+	public UpdateUserRequest(
+			String firstname, 
+			String lastname, 
+			String email, 
+			LocalDate birthdate, 
+			String cellphone,
+			String password,
+			String isoCountry
+			) {
+		super();
+		this.email = email;
+		this.isoCountry = isoCountry;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.cellphone = cellphone;
+		this.birthdate = birthdate;
+		this.password = password;
+	}
 
     public Long getId() {
         return id;

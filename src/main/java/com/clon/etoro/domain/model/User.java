@@ -2,6 +2,9 @@ package com.clon.etoro.domain.model;
 
 import java.time.LocalDate;
 
+import lombok.Data;
+
+@Data
 public class User {
 	private Long idUser;
 	private String firstname;

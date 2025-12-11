@@ -24,6 +24,7 @@ public class CreateUserUseCase {
 	public Mono<User> execute(CreateUserRequest createUser) {
 		//Lógica de negocio pura
 		
+		System.out.println("asdasd: " + createUser.toString());
 		User u = new User(
 				null, 
 				createUser.firstname(), 
@@ -33,6 +34,7 @@ public class CreateUserUseCase {
 				createUser.password(), 
 				createUser.cellphone(), 
 				new Country(createUser.isoCountry()));
+		System.out.println("asdasd: " + u.toString());
 		return service.validateUserCreation(u);
 	}
 }
