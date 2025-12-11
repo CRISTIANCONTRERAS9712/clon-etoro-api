@@ -61,6 +61,11 @@ public class PostgresUserRepositoryAdapter implements UserRepositoryPort {
                 .map(this::toDomain);
     }
 
+    @Override
+    public Mono<Void> deleteById(Long id) {
+        return reactiveRepo.deleteById(id);
+    }
+
 
 	// -------------------------------------------------------
 	// MAPPERS (Entity <-> Domain)

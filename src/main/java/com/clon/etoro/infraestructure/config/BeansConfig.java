@@ -1,11 +1,12 @@
 package com.clon.etoro.infraestructure.config;
 
-import com.clon.etoro.application.usecase.UpdateUserUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.clon.etoro.application.usecase.CreateUserUseCase;
 import com.clon.etoro.application.usecase.GetAllUserUseCase;
+import com.clon.etoro.application.usecase.UpdateUserUseCase;
+import com.clon.etoro.application.usecase.DeleteUserUseCase;
 import com.clon.etoro.domain.port.CountryRepositoryPort;
 import com.clon.etoro.domain.port.UserRepositoryPort;
 import com.clon.etoro.domain.service.UserDomainService;
@@ -49,5 +50,10 @@ public class BeansConfig {
     @Bean
     UpdateUserUseCase updateUserUseCase(UserRepositoryPort repo, CountryRepositoryPort countryRepo, UserDomainService userDomainService) {
         return new UpdateUserUseCase(repo, countryRepo, userDomainService);
+    }
+
+    @Bean
+    DeleteUserUseCase deleteUserUseCase(UserRepositoryPort repo) {
+        return new DeleteUserUseCase(repo);
     }
 }

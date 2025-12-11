@@ -23,11 +23,13 @@ public class UserController {
 	private final CreateUserUseCase createUserUseCase;
 	private final GetAllUserUseCase getAllUsersUseCase;
     private final UpdateUserUseCase updateUserUseCase;
+    private final DeleteUserUseCase deleteUserUseCase;
 
-	public UserController(CreateUserUseCase createUserUseCase, GetAllUserUseCase getAllUsersUseCase, UpdateUserUseCase updateUserUseCase) {
+	public UserController(CreateUserUseCase createUserUseCase, GetAllUserUseCase getAllUsersUseCase, UpdateUserUseCase updateUserUseCase, DeleteUserUseCase deleteUserUseCase) {
 		this.createUserUseCase = createUserUseCase;
 		this.getAllUsersUseCase = getAllUsersUseCase;
         this.updateUserUseCase = updateUserUseCase;
+        this.deleteUserUseCase = deleteUserUseCase;
 	}
 
 	/***
@@ -64,6 +66,13 @@ public class UserController {
         return updateUserUseCase.execute(request)
                 .map(ResponseEntity::ok);
     }
+
+    @DeleteMapping("/delete")
+    public Mono<ResponseEntity<String>> delete(@RequestBody DeleteUserRequest request) {
+        return deleteUserUseCase.execute(request.getId())
+                .thenReturn(ResponseEntity.ok("Usuario eliminado correctamente"));
+    }
+
 
 
     @GetMapping("/hello")
