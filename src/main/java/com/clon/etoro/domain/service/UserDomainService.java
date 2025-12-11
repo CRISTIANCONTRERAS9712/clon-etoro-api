@@ -2,7 +2,9 @@ package com.clon.etoro.domain.service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Optional;
 
+import com.clon.etoro.application.usecase.UpdateUserRequest;
 import com.clon.etoro.domain.model.Country;
 import com.clon.etoro.domain.model.User;
 import com.clon.etoro.domain.port.CountryRepositoryPort;
@@ -50,6 +52,49 @@ public class UserDomainService {
 	            });
 		
 	}
+
+    // ----------------------------------------
+    // 1️⃣ Resolver país solo si viene en request
+    // ----------------------------------------
+    public Mono<Country> resolveCountryIfProvided(UpdateUserRequest request) {
+        return Optional.ofNullable(request.getIsoCountry())
+                .map(iso -> countryRepositoryPort.getCountryByCodeIso(iso)
+                        .switchIfEmpty(Mono.error(new RuntimeException("Country not found")))
+                        .flatMap(country -> {
+                            if (!country.getActive()) {
+                                return Mono.error(new RuntimeException("Country not active"));
+                            }
+                            return Mono.just(country);
+                        })
+                )
+                .orElse(Mono.empty());
+    }
+
+
+    // ----------------------------------------
+    // 2️⃣ Reglas de negocio para actualizar usuario
+    // ----------------------------------------
+    public Mono<User> applyUserUpdate(User user, UpdateUserRequest request, Country country) {
+
+        // Validación edad si se quiere cambiar
+        if (request.getBirthdate() != null && !isUserAdult(request.getBirthdate())) {
+            return Mono.error(new RuntimeException("El usuario debe ser mayor de 18 años"));
+        }
+
+        // Si viene país, actualizarlo
+        if (country != null) {
+            user.setCountry(country);
+        }
+
+        // Actualizar campos si vienen
+        Optional.ofNullable(request.getFirstname()).ifPresent(user::setFirstname);
+        Optional.ofNullable(request.getLastname()).ifPresent(user::setLastname);
+        Optional.ofNullable(request.getCellphone()).ifPresent(user::setCellphone);
+        Optional.ofNullable(request.getPassword()).ifPresent(user::setPassword);
+        Optional.ofNullable(request.getBirthdate()).ifPresent(user::setBirthdate);
+
+        return Mono.just(user);
+    }
 
 	private Boolean isUserAdult(LocalDate birthDate) {
 		if (birthDate == null)

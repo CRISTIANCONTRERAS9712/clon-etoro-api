@@ -47,7 +47,7 @@ public class BeansConfig {
     }
 
     @Bean
-    UpdateUserUseCase updateUserUseCase(UserRepositoryPort repo, CountryRepositoryPort countryRepo) {
-        return new UpdateUserUseCase(repo, countryRepo);
+    UpdateUserUseCase updateUserUseCase(UserRepositoryPort repo, CountryRepositoryPort countryRepo, UserDomainService userDomainService) {
+        return new UpdateUserUseCase(repo, countryRepo, userDomainService);
     }
 }
