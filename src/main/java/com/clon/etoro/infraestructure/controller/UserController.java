@@ -57,7 +57,7 @@ public class UserController {
     @DeleteMapping("/delete")
     public Mono<ResponseEntity<String>> delete(@RequestBody DeleteUserRequest request) {
         return deleteUserUseCase.execute(request.getId())
-                .thenReturn(ResponseEntity.ok("Usuario eliminado correctamente"));
+                .then(Mono.just(ResponseEntity.noContent().build()));
     }
 
     @GetMapping("/hello")
