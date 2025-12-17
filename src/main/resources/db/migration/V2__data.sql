@@ -8,3 +8,8 @@ INSERT INTO country (iso_country, name, active) VALUES
 -- Datos iniciales de User
 INSERT INTO users (firstname, lastname, email, birthdate, password, cellphone, country_id) VALUES ('Cristiannnnn', 'Contreras', 'cristian@example.com', '1997-12-21', '123456', '3001234567', 1),
 ('Juan', 'Pérez', 'juan@example.com', '1990-04-10', 'abc123', '3109876543', 2);
+
+-- Datos iniciales de Asset
+INSERT INTO asset (ticker, "name", description, logo, price, active) VALUES
+('GOOG', 'Google', 'Empresa Google', 'https://example.com/goog.png', '200', TRUE),
+('META', 'Meta', 'Empresa Meta', 'https://example.com/meta.png', '700', TRUE);

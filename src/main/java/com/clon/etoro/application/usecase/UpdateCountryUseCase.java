@@ -18,18 +18,14 @@ public class UpdateCountryUseCase {
         Mono<Country> countryMono = countryRepo.findById(request.id())
                 .switchIfEmpty(Mono.error(new RuntimeException("Country not found")));
 
-        // 2️⃣ Combinar usuario + país opcional y aplicar reglas
+        // 2️⃣ Actualizar country
         return countryMono
                 .flatMap(country -> {
-
                     Optional.ofNullable(request.iso()).ifPresent(country::setIso);
                     Optional.ofNullable(request.name()).ifPresent(country::setName);
                     Optional.ofNullable(request.active()).ifPresent(country::setActive);
-
                     return countryRepo.update(country);
-                })
-                // 3️⃣ Guardar country final
-                .flatMap(countryRepo::save);
+                });
 
     }
 }

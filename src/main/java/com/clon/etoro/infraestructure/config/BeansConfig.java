@@ -3,23 +3,31 @@ package com.clon.etoro.infraestructure.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.clon.etoro.application.usecase.CreateAssetUseCase;
 import com.clon.etoro.application.usecase.CreateCountryUseCase;
 import com.clon.etoro.application.usecase.CreateUserUseCase;
+import com.clon.etoro.application.usecase.DeleteAssetUseCase;
 import com.clon.etoro.application.usecase.DeleteCountryUseCase;
 import com.clon.etoro.application.usecase.GetAllUserUseCase;
+import com.clon.etoro.application.usecase.GetByIdAssetUseCase;
 import com.clon.etoro.application.usecase.GetByIdCountryUseCase;
 import com.clon.etoro.application.usecase.GetByIdUserUseCase;
+import com.clon.etoro.application.usecase.UpdateAssetUseCase;
 import com.clon.etoro.application.usecase.UpdateCountryUseCase;
 import com.clon.etoro.application.usecase.UpdateUserUseCase;
 import com.clon.etoro.application.usecase.DeleteUserUseCase;
+import com.clon.etoro.application.usecase.GetAllAssetUseCase;
 import com.clon.etoro.application.usecase.GetAllCountryUseCase;
+import com.clon.etoro.domain.port.AssetRepositoryPort;
 import com.clon.etoro.domain.port.CountryRepositoryPort;
 import com.clon.etoro.domain.port.UserRepositoryPort;
 import com.clon.etoro.domain.service.UserDomainService;
 import com.clon.etoro.infraestructure.adapter.InMemoryCountryRepositoryAdapter;
 import com.clon.etoro.infraestructure.adapter.InMemoryUserRepositoryAdapter;
+import com.clon.etoro.infraestructure.adapter.PostgresAssetRepositoryAdapter;
 import com.clon.etoro.infraestructure.adapter.PostgresCountryRepositoryAdapter;
 import com.clon.etoro.infraestructure.adapter.PostgresUserRepositoryAdapter;
+import com.clon.etoro.infraestructure.repository.SpringDataAssetRepository;
 import com.clon.etoro.infraestructure.repository.SpringDataCountryRepository;
 import com.clon.etoro.infraestructure.repository.SpringDataUserRepository;
 
@@ -36,6 +44,12 @@ public class BeansConfig {
     CountryRepositoryPort createCountryRepository(SpringDataCountryRepository springRepo) {
         // return new InMemoryCountryRepositoryAdapter();
         return new PostgresCountryRepositoryAdapter(springRepo);
+    }
+
+    @Bean
+    AssetRepositoryPort createAssetRepository(SpringDataAssetRepository springRepo) {
+        // return new InMemoryAssetRepositoryAdapter();
+        return new PostgresAssetRepositoryAdapter(springRepo);
     }
 
     @Bean
@@ -93,5 +107,30 @@ public class BeansConfig {
     @Bean
     GetAllCountryUseCase getAllCountryUseCase(CountryRepositoryPort repo) {
         return new GetAllCountryUseCase(repo);
+    }
+
+    @Bean
+    CreateAssetUseCase createAssetUseCase(AssetRepositoryPort repo) {
+        return new CreateAssetUseCase(repo);
+    }
+
+    @Bean
+    UpdateAssetUseCase updateAssetUseCase(AssetRepositoryPort repo) {
+        return new UpdateAssetUseCase(repo);
+    }
+
+    @Bean
+    DeleteAssetUseCase deleteAssetUseCase(AssetRepositoryPort repo) {
+        return new DeleteAssetUseCase(repo);
+    }
+
+    @Bean
+    GetByIdAssetUseCase getByIdAssetUseCase(AssetRepositoryPort repo) {
+        return new GetByIdAssetUseCase(repo);
+    }
+
+    @Bean
+    GetAllAssetUseCase getAllAssetUseCase(AssetRepositoryPort repo) {
+        return new GetAllAssetUseCase(repo);
     }
 }

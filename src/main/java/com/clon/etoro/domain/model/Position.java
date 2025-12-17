@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class Position {
-	private Long idPosition;
+	private Long id;
 	private User user;
 	private Asset asset;
 	private Double units;

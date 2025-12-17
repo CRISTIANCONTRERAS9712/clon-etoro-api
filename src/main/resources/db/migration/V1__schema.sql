@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS flyway_schema_history;
 CREATE TABLE country (
     id_country SERIAL PRIMARY KEY,
     iso_country VARCHAR(10) NOT NULL UNIQUE,
-    name VARCHAR(120) NOT NULL,
+    "name" VARCHAR(120) NOT NULL,
     active BOOLEAN DEFAULT TRUE
 );
 
@@ -17,7 +17,7 @@ CREATE TABLE users (
     lastname VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     birthdate DATE,
-    password VARCHAR(255) NOT NULL,
+    "password" VARCHAR(255) NOT NULL,
     cellphone VARCHAR(30),
     country_id INT,
     CONSTRAINT fk_user_country
@@ -26,3 +26,15 @@ CREATE TABLE users (
         ON UPDATE CASCADE
         ON DELETE SET NULL
 );
+
+-- Tabla Asset
+CREATE TABLE asset (
+    id SERIAL PRIMARY KEY,
+    ticker VARCHAR(10) NOT NULL UNIQUE,
+    "name" VARCHAR(120) NOT NULL,
+    "description" VARCHAR(255),
+    logo VARCHAR(255),
+    price VARCHAR(255),
+    active BOOLEAN DEFAULT TRUE
+);
+
