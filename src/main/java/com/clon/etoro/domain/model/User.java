@@ -2,11 +2,15 @@ package com.clon.etoro.domain.model;
 
 import java.time.LocalDate;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
-	private Long idUser;
+	private Long id;
 	private String firstname;
 	private String lastname;
 	private String email;
@@ -14,21 +18,4 @@ public class User {
 	private String password;
 	private String cellphone;
 	private Country country;
-
-	public User() {
-		super();
-	}
-
-	public User(Long idUser, String firstname, String lastname, String email, LocalDate birthdate, String password,
-			String cellphone, Country country) {
-		super();
-		this.idUser = idUser;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.email = email;
-		this.birthdate = birthdate;
-		this.password = password;
-		this.cellphone = cellphone;
-		this.country = country;
-	}
 }

@@ -30,7 +30,7 @@ public class PostgresUserRepositoryAdapter implements UserRepositoryPort {
 
 	@Override
 	public Mono<User> update(User u) {
-		return reactiveRepo.findById(u.getIdUser()) // Buscar primero
+		return reactiveRepo.findById(u.getId()) // Buscar primero
 				.switchIfEmpty(Mono.error(new RuntimeException("User not found")))
 				.flatMap(existing -> {
 					// Actualizar valores
@@ -74,7 +74,7 @@ public class PostgresUserRepositoryAdapter implements UserRepositoryPort {
 	private UserEntity toEntity(User u) {
 		UserEntity e = new UserEntity();
 
-		e.setIdUser(u.getIdUser()); // si viene null, hace insert; si no, update
+		e.setIdUser(u.getId()); // si viene null, hace insert; si no, update
 		e.setFirstname(u.getFirstname());
 		e.setLastname(u.getLastname());
 		e.setEmail(u.getEmail());
@@ -92,7 +92,7 @@ public class PostgresUserRepositoryAdapter implements UserRepositoryPort {
 	private User toDomain(UserEntity e) {
 		User u = new User();
 
-		u.setIdUser(e.getIdUser());
+		u.setId(e.getIdUser());
 		u.setFirstname(e.getFirstname());
 		u.setLastname(e.getLastname());
 		u.setEmail(e.getEmail());
