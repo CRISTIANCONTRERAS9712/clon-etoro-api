@@ -20,7 +20,7 @@ public class GetAllUserUseCase {
 				.flatMap(user -> {
 					// countryRepositoryPort.getCountryByCodeIso devuelve Mono<Country>
 					Mono<Country> countryMono = countryRepositoryPort
-							.getCountryById(user.getCountry().getIdCountry());
+							.getCountryById(user.getCountry().getId());
 
 					// Usamos un segundo flatMap dentro para esperar el Mono<Country>
 					// y luego combinarlo con el User original para devolver un Mono<User>

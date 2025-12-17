@@ -1,12 +1,14 @@
 package com.clon.etoro.domain.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class Country {
 
-	private Long idCountry;
-	private String isoCountry;
+	private Long id;
+	private String iso;
 	private String name;
 	private Boolean active;
 
@@ -14,38 +16,30 @@ public class Country {
 		super();
 	}
 
-	public Country(Long idCountry) {
+	public Country(Long id) {
 		super();
-		this.idCountry = idCountry;
+		this.id = id;
 	}
 
-	public Country(String isoCountry) {
+	public Country(String iso) {
 		super();
-		this.isoCountry = isoCountry;
+		this.iso = iso;
 	}
 
-	public Country(Long idCountry, String isoCountry, String name, Boolean active) {
-		super();
-		this.idCountry = idCountry;
-		this.isoCountry = isoCountry;
-		this.name = name;
-		this.active = active;
+	public Long getId() {
+		return id;
 	}
 
-	public Long getIdCountry() {
-		return idCountry;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setIdCountry(Long idCountry) {
-		this.idCountry = idCountry;
+	public String getIso() {
+		return iso;
 	}
 
-	public String getIsoCountry() {
-		return isoCountry;
-	}
-
-	public void setIsoCountry(String isoCountry) {
-		this.isoCountry = isoCountry;
+	public void setIso(String iso) {
+		this.iso = iso;
 	}
 
 	public String getName() {

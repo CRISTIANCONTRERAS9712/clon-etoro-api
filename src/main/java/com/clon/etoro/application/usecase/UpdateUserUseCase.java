@@ -24,20 +24,15 @@ public class UpdateUserUseCase {
                 .switchIfEmpty(Mono.error(new RuntimeException("User not found")));
 
         // 2️⃣ Resolver país solo si viene en el request
-        Mono<Optional<Country>> countryMono =
-                userDomainService.resolveCountryIfProvided(request)
-                        .map(Optional::of)
-                        .defaultIfEmpty(Optional.empty());
+        Mono<Country> countryMono = userDomainService.resolveCountryIfProvided(request.getIsoCountry());
 
         // 3️⃣ Combinar usuario + país opcional y aplicar reglas
         return userMono
                 .zipWith(countryMono)
                 .flatMap(tuple -> {
                     User user = tuple.getT1();
-                    Optional<Country> countryOpt = tuple.getT2();
-                    Country country = countryOpt.orElse(null);
-
-                    return userDomainService.applyUserUpdate(user, request, country);
+                    Country country = tuple.getT2();
+                    return userDomainService.applyUserUpdate(user, country);
                 })
                 // 4️⃣ Guardar usuario final
                 .flatMap(userRepo::save)
@@ -45,7 +40,7 @@ public class UpdateUserUseCase {
                 // 5️⃣ Consultar nuevamente el país completo ANTES de regresarlo al controller
                 .flatMap(savedUser -> {
 
-                    Long idCountry = savedUser.getCountry().getIdCountry();
+                    Long idCountry = savedUser.getCountry().getId();
 
                     return countryRepo.getCountryById(idCountry)
                             .map(fullCountry -> {

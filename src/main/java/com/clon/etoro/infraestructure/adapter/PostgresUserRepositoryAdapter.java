@@ -18,7 +18,8 @@ public class PostgresUserRepositoryAdapter implements UserRepositoryPort {
 	@Override
 	public Mono<Boolean> existsByEmail(String email) {
 		return reactiveRepo.existsByEmail(email)
-				.doOnNext(bool -> System.out.println("DEBUG MANUAL: Resultado de reactiveRepo.existsByEmail(email)o: " + bool));
+				.doOnNext(bool -> System.out
+						.println("DEBUG MANUAL: Resultado de reactiveRepo.existsByEmail(email)o: " + bool));
 	}
 
 	@Override
@@ -39,8 +40,8 @@ public class PostgresUserRepositoryAdapter implements UserRepositoryPort {
 					existing.setBirthdate(u.getBirthdate());
 					existing.setPassword(u.getPassword());
 					existing.setCellphone(u.getCellphone());
-					existing.setCountryId(u.getCountry().getIdCountry());
-					
+					existing.setCountryId(u.getCountry().getId());
+
 					return reactiveRepo.save(existing);
 				}).map(this::toDomain);
 	}
@@ -55,17 +56,16 @@ public class PostgresUserRepositoryAdapter implements UserRepositoryPort {
 		return reactiveRepo.findAll().map(this::toDomain);
 	}
 
-    @Override
-    public Mono<User> findById(Long id) {
-        return reactiveRepo.findById(id)
-                .map(this::toDomain);
-    }
+	@Override
+	public Mono<User> findById(Long id) {
+		return reactiveRepo.findById(id)
+				.map(this::toDomain);
+	}
 
-    @Override
-    public Mono<Void> deleteById(Long id) {
-        return reactiveRepo.deleteById(id);
-    }
-
+	@Override
+	public Mono<Void> deleteById(Long id) {
+		return reactiveRepo.deleteById(id);
+	}
 
 	// -------------------------------------------------------
 	// MAPPERS (Entity <-> Domain)
@@ -83,7 +83,7 @@ public class PostgresUserRepositoryAdapter implements UserRepositoryPort {
 		e.setCellphone(u.getCellphone());
 
 		if (u.getCountry() != null) {
-			e.setCountryId(u.getCountry().getIdCountry());
+			e.setCountryId(u.getCountry().getId());
 		}
 
 		return e;
@@ -102,7 +102,7 @@ public class PostgresUserRepositoryAdapter implements UserRepositoryPort {
 
 		if (e.getCountryId() != null) {
 			Country c = new Country();
-			c.setIdCountry(e.getCountryId());
+			c.setId(e.getCountryId());
 			u.setCountry(c);
 		}
 
