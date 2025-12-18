@@ -2,19 +2,13 @@ package com.clon.etoro.infraestructure.config;
 
 import com.clon.etoro.application.usecase.*;
 import com.clon.etoro.domain.model.User;
+import com.clon.etoro.domain.port.*;
 import com.clon.etoro.infraestructure.adapter.*;
-import com.clon.etoro.infraestructure.repository.SpringDataPositionRepository;
+import com.clon.etoro.infraestructure.repository.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.clon.etoro.domain.port.AssetRepositoryPort;
-import com.clon.etoro.domain.port.CountryRepositoryPort;
-import com.clon.etoro.domain.port.UserRepositoryPort;
-import com.clon.etoro.domain.port.PositionRepositoryPort;
 import com.clon.etoro.domain.service.UserDomainService;
-import com.clon.etoro.infraestructure.repository.SpringDataAssetRepository;
-import com.clon.etoro.infraestructure.repository.SpringDataCountryRepository;
-import com.clon.etoro.infraestructure.repository.SpringDataUserRepository;
 
 @Configuration
 public class BeansConfig {
@@ -41,6 +35,12 @@ public class BeansConfig {
     PositionRepositoryPort createPositionRepository(SpringDataPositionRepository springRepo) {
         // return new InMemoryPositionRepositoryAdapter();
         return new PostgresPositionRepositoryAdapter(springRepo);
+    }
+
+    @Bean
+    public AccountRepositoryPort accountRepositoryPort(
+            SpringDataAccountRepository springDataAccountRepository) {
+        return new PostgresAccountRepositoryAdapter(springDataAccountRepository);
     }
 
     @Bean
@@ -153,5 +153,30 @@ public class BeansConfig {
     DeletePositionUseCase deletePositionUseCase(
             PositionRepositoryPort positionRepositoryPort) {
         return new DeletePositionUseCase(positionRepositoryPort);
+    }
+
+    @Bean
+    CreateAccountUseCase createAccountUseCase(AccountRepositoryPort port) {
+        return new CreateAccountUseCase(port);
+    }
+
+    @Bean
+    UpdateAccountUseCase updateAccountUseCase(AccountRepositoryPort port) {
+        return new UpdateAccountUseCase(port);
+    }
+
+    @Bean
+    GetAllAccountUseCase getAllAccountUseCase(AccountRepositoryPort port) {
+        return new GetAllAccountUseCase(port);
+    }
+
+    @Bean
+    GetAccountByIdUseCase getAccountByIdUseCase(AccountRepositoryPort port) {
+        return new GetAccountByIdUseCase(port);
+    }
+
+    @Bean
+    DeleteAccountUseCase deleteAccountUseCase(AccountRepositoryPort port) {
+        return new DeleteAccountUseCase(port);
     }
 }
