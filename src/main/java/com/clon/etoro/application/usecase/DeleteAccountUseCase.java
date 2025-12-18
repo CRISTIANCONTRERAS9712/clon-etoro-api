@@ -10,6 +10,8 @@ public class DeleteAccountUseCase {
     private final AccountRepositoryPort repository;
 
     public Mono<Void> execute(Long id) {
-        return repository.deleteById(id);
+        return repository.findById(id)
+                .switchIfEmpty(Mono.error(new RuntimeException("Cuenta no encontrada")))
+                .then(repository.deleteById(id));
     }
 }

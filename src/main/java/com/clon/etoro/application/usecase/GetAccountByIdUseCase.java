@@ -11,6 +11,7 @@ public class GetAccountByIdUseCase {
     private final AccountRepositoryPort repository;
 
     public Mono<Account> execute(Long id) {
-        return repository.findById(id);
+        return repository.findById(id)
+                .switchIfEmpty(Mono.error(new RuntimeException("Cuenta no encontrada")));
     }
 }

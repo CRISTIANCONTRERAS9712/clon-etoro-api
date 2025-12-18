@@ -1,9 +1,12 @@
 package com.clon.etoro.infraestructure.controller;
 
+import com.clon.etoro.application.request.CreateAccountRequest;
+import com.clon.etoro.application.request.UpdateAccountRequest;
 import com.clon.etoro.application.usecase.*;
 import com.clon.etoro.domain.model.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -22,14 +25,14 @@ public class AccountController {
     // ✔ Coincide con POST /accounts/create
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Account> create(@RequestBody Account account) {
-        return createAccountUseCase.execute(account);
+    public Mono<Account> create(@RequestBody CreateAccountRequest request) {
+        return createAccountUseCase.execute(request);
     }
 
     // ✔ Coincide con PUT /accounts/update
     @PutMapping("/update")
-    public Mono<Account> update(@RequestBody Account account) {
-        return updateAccountUseCase.execute(account);
+    public Mono<Account> update(@RequestBody UpdateAccountRequest request) {
+        return updateAccountUseCase.execute(request);
     }
 
     // ✔ GET /accounts
@@ -40,8 +43,12 @@ public class AccountController {
 
     // ✔ GET /accounts/{id}
     @GetMapping("/{id}")
-    public Mono<Account> getById(@PathVariable Long id) {
-        return getAccountByIdUseCase.execute(id);
+    public Mono<ResponseEntity<Account>> getById(@PathVariable Long id) {
+        return getAccountByIdUseCase.execute(id)
+                .map(ResponseEntity::ok)
+                .onErrorResume(
+                        RuntimeException.class,
+                        e -> Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).build()));
     }
 
     // ✔ DELETE /accounts/{id}

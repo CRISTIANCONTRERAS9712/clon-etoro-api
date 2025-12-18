@@ -50,7 +50,7 @@ public class BeansConfig {
 
     @Bean
     CreateUserUseCase createUserUseCase(UserRepositoryPort repo, UserDomainService userDomainService,
-                                        CountryRepositoryPort countryRepo) {
+            CountryRepositoryPort countryRepo) {
         return new CreateUserUseCase(repo, userDomainService, countryRepo);
     }
 
@@ -66,7 +66,7 @@ public class BeansConfig {
 
     @Bean
     UpdateUserUseCase updateUserUseCase(UserRepositoryPort repo, CountryRepositoryPort countryRepo,
-                                        UserDomainService userDomainService) {
+            UserDomainService userDomainService) {
         return new UpdateUserUseCase(repo, countryRepo, userDomainService);
     }
 
@@ -127,13 +127,15 @@ public class BeansConfig {
 
     @Bean
     CreatePositionUseCase createPositionUseCase(
-            PositionRepositoryPort positionRepositoryPort, UserRepositoryPort userRepositoryPort, AssetRepositoryPort assetRepositoryPort) {
+            PositionRepositoryPort positionRepositoryPort, UserRepositoryPort userRepositoryPort,
+            AssetRepositoryPort assetRepositoryPort) {
         return new CreatePositionUseCase(positionRepositoryPort, userRepositoryPort, assetRepositoryPort);
     }
 
     @Bean
     UpdatePositionUseCase updatePositionUseCase(
-            PositionRepositoryPort positionRepositoryPort, UserRepositoryPort userRepositoryPort, AssetRepositoryPort assetRepositoryPort) {
+            PositionRepositoryPort positionRepositoryPort, UserRepositoryPort userRepositoryPort,
+            AssetRepositoryPort assetRepositoryPort) {
         return new UpdatePositionUseCase(positionRepositoryPort, userRepositoryPort, assetRepositoryPort);
     }
 
@@ -156,13 +158,13 @@ public class BeansConfig {
     }
 
     @Bean
-    CreateAccountUseCase createAccountUseCase(AccountRepositoryPort port) {
-        return new CreateAccountUseCase(port);
+    CreateAccountUseCase createAccountUseCase(AccountRepositoryPort accountRepository, UserRepositoryPort userPort) {
+        return new CreateAccountUseCase(accountRepository, userPort);
     }
 
     @Bean
-    UpdateAccountUseCase updateAccountUseCase(AccountRepositoryPort port) {
-        return new UpdateAccountUseCase(port);
+    UpdateAccountUseCase updateAccountUseCase(AccountRepositoryPort accountRepository, UserRepositoryPort userPort) {
+        return new UpdateAccountUseCase(accountRepository, userPort);
     }
 
     @Bean
