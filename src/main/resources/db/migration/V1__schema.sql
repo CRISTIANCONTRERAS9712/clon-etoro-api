@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS country CASCADE;
 DROP TABLE IF EXISTS flyway_schema_history;
+DROP TABLE IF EXISTS account;
 
 -- Tabla Country
 CREATE TABLE country (
@@ -64,4 +65,11 @@ CREATE TABLE propertie (
     "key" VARCHAR(120) NOT NULL UNIQUE,
     "value" VARCHAR(255) NOT NULL,
     active BOOLEAN DEFAULT TRUE
+);
+
+--Tabla account
+CREATE TABLE account (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    cash_available NUMERIC(15,2) NOT NULL
 );

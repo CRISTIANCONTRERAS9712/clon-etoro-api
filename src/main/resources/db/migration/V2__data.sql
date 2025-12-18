@@ -23,3 +23,8 @@ INSERT INTO propertie ("key", "value", active) VALUES
 INSERT INTO position (units, buy_price, buy_date, user_id, asset_id) VALUES
 (10, 200, '2022-01-01', 1, 1),
 (20, 700, '2022-02-01', 1, 2);
+
+-- Datos iniciales de account
+INSERT INTO account (user_id, cash_available) VALUES (1, 1000.00);
+INSERT INTO account (user_id, cash_available) VALUES (2, 5000.50);
+INSERT INTO account (user_id, cash_available) VALUES (3, 250.75);
