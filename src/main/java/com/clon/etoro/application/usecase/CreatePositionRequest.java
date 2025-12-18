@@ -1,0 +1,6 @@
+package com.clon.etoro.application.usecase;
+
+import java.time.LocalDateTime;
+
+public record CreatePositionRequest(Long userId, Long assetId, Double units, Double buyPrice, LocalDateTime buyDate) {
+}
