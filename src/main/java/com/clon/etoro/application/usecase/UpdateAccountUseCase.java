@@ -12,6 +12,7 @@ import com.clon.etoro.domain.port.UserRepositoryPort;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuples;
 
 @RequiredArgsConstructor
 public class UpdateAccountUseCase {
@@ -27,7 +28,7 @@ public class UpdateAccountUseCase {
                                 .error(new RuntimeException("Usuario no encontrado"))),
                 accountRepository.findById(request.accountId())
                         .switchIfEmpty(Mono.error(new RuntimeException("Cuenta no encontrada"))))
-                .map(tuple -> {
+                .flatMap(tuple -> {
                     User user = tuple.getT1();
                     Account account = tuple.getT2();
 
@@ -35,8 +36,14 @@ public class UpdateAccountUseCase {
 
                     Optional.ofNullable(request.cashAvailable()).ifPresent(account::setCashAvailable);
 
-                    return account;
+                    return accountRepository.update(account)
+                            .map(savedAccount -> Tuples.of(savedAccount, user));
                 })
-                .flatMap(accountRepository::update);
+                .map(tuple -> {
+                    Account savedAccount = tuple.getT1();
+                    User user = tuple.getT2();
+                    savedAccount.setUser(user);
+                    return savedAccount;
+                });
     }
 }

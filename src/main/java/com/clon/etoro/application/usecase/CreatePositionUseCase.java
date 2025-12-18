@@ -10,6 +10,7 @@ import com.clon.etoro.domain.port.UserRepositoryPort;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuples;
 
 @RequiredArgsConstructor
 public class CreatePositionUseCase {
@@ -24,7 +25,7 @@ public class CreatePositionUseCase {
                         .switchIfEmpty(Mono.error(new RuntimeException("Usuario no encontrado"))),
                 assetRepository.findById(request.assetId())
                         .switchIfEmpty(Mono.error(new RuntimeException("Asset no encontrado"))))
-                .map(tuple -> {
+                .flatMap(tuple -> {
                     User user = tuple.getT1();
                     Asset asset = tuple.getT2();
 
@@ -35,9 +36,17 @@ public class CreatePositionUseCase {
                     position.setBuyPrice(request.buyPrice());
                     position.setBuyDate(request.buyDate());
 
-                    return position;
+                    return positionRepository.save(position)
+                            .map(savedPosition -> Tuples.of(savedPosition, user, asset));
                 })
-                .flatMap(positionRepository::save);
+                .map(tuple -> {
+                    Position savedPosition = tuple.getT1();
+                    User user = tuple.getT2();
+                    Asset asset = tuple.getT3();
+                    savedPosition.setUser(user);
+                    savedPosition.setAsset(asset);
+                    return savedPosition;
+                });
     }
 
 }

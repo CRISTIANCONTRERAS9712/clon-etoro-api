@@ -141,14 +141,18 @@ public class BeansConfig {
 
     @Bean
     GetAllPositionUseCase getAllPositionUseCase(
-            PositionRepositoryPort positionRepositoryPort) {
-        return new GetAllPositionUseCase(positionRepositoryPort);
+            PositionRepositoryPort positionRepositoryPort,
+            UserRepositoryPort userRepositoryPort,
+            AssetRepositoryPort assetRepositoryPort) {
+        return new GetAllPositionUseCase(positionRepositoryPort, userRepositoryPort, assetRepositoryPort);
     }
 
     @Bean
     GetByIdPositionUseCase getByIdPositionUseCase(
-            PositionRepositoryPort positionRepositoryPort) {
-        return new GetByIdPositionUseCase(positionRepositoryPort);
+            PositionRepositoryPort positionRepositoryPort,
+            UserRepositoryPort userRepositoryPort,
+            AssetRepositoryPort assetRepositoryPort) {
+        return new GetByIdPositionUseCase(positionRepositoryPort, userRepositoryPort, assetRepositoryPort);
     }
 
     @Bean
@@ -168,8 +172,8 @@ public class BeansConfig {
     }
 
     @Bean
-    GetAllAccountUseCase getAllAccountUseCase(AccountRepositoryPort port) {
-        return new GetAllAccountUseCase(port);
+    GetAllAccountUseCase getAllAccountUseCase(AccountRepositoryPort port, UserRepositoryPort userPort) {
+        return new GetAllAccountUseCase(port, userPort);
     }
 
     @Bean

@@ -30,7 +30,7 @@ public class UpdatePositionUseCase {
                                 positionRepository.findById(request.id())
                                                 .switchIfEmpty(Mono
                                                                 .error(new RuntimeException("Position no encontrada"))))
-                                .map(tuple -> {
+                                .flatMap(tuple -> {
                                         User user = tuple.getT1();
                                         Asset asset = tuple.getT2();
                                         Position position = tuple.getT3();
@@ -42,9 +42,13 @@ public class UpdatePositionUseCase {
                                         Optional.ofNullable(request.buyPrice()).ifPresent(position::setBuyPrice);
                                         Optional.ofNullable(request.buyDate()).ifPresent(position::setBuyDate);
 
-                                        return position;
-                                })
-                                .flatMap(positionRepository::update);
+                                        return positionRepository.update(position)
+                                                        .map(updatedPosition -> {
+                                                                updatedPosition.setUser(user);
+                                                                updatedPosition.setAsset(asset);
+                                                                return updatedPosition;
+                                                        });
+                                });
         }
 
 }
