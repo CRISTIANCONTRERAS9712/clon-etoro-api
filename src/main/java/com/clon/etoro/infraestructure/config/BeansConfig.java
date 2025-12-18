@@ -1,32 +1,17 @@
 package com.clon.etoro.infraestructure.config;
 
+import com.clon.etoro.application.usecase.*;
+import com.clon.etoro.domain.model.User;
+import com.clon.etoro.infraestructure.adapter.*;
+import com.clon.etoro.infraestructure.repository.SpringDataPositionRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.clon.etoro.application.usecase.CreateAssetUseCase;
-import com.clon.etoro.application.usecase.CreateCountryUseCase;
-import com.clon.etoro.application.usecase.CreateUserUseCase;
-import com.clon.etoro.application.usecase.DeleteAssetUseCase;
-import com.clon.etoro.application.usecase.DeleteCountryUseCase;
-import com.clon.etoro.application.usecase.GetAllUserUseCase;
-import com.clon.etoro.application.usecase.GetByIdAssetUseCase;
-import com.clon.etoro.application.usecase.GetByIdCountryUseCase;
-import com.clon.etoro.application.usecase.GetByIdUserUseCase;
-import com.clon.etoro.application.usecase.UpdateAssetUseCase;
-import com.clon.etoro.application.usecase.UpdateCountryUseCase;
-import com.clon.etoro.application.usecase.UpdateUserUseCase;
-import com.clon.etoro.application.usecase.DeleteUserUseCase;
-import com.clon.etoro.application.usecase.GetAllAssetUseCase;
-import com.clon.etoro.application.usecase.GetAllCountryUseCase;
 import com.clon.etoro.domain.port.AssetRepositoryPort;
 import com.clon.etoro.domain.port.CountryRepositoryPort;
 import com.clon.etoro.domain.port.UserRepositoryPort;
+import com.clon.etoro.domain.port.PositionRepositoryPort;
 import com.clon.etoro.domain.service.UserDomainService;
-import com.clon.etoro.infraestructure.adapter.InMemoryCountryRepositoryAdapter;
-import com.clon.etoro.infraestructure.adapter.InMemoryUserRepositoryAdapter;
-import com.clon.etoro.infraestructure.adapter.PostgresAssetRepositoryAdapter;
-import com.clon.etoro.infraestructure.adapter.PostgresCountryRepositoryAdapter;
-import com.clon.etoro.infraestructure.adapter.PostgresUserRepositoryAdapter;
 import com.clon.etoro.infraestructure.repository.SpringDataAssetRepository;
 import com.clon.etoro.infraestructure.repository.SpringDataCountryRepository;
 import com.clon.etoro.infraestructure.repository.SpringDataUserRepository;
@@ -53,13 +38,19 @@ public class BeansConfig {
     }
 
     @Bean
+    PositionRepositoryPort createPositionRepository(SpringDataPositionRepository springRepo) {
+        // return new InMemoryPositionRepositoryAdapter();
+        return new PostgresPositionRepositoryAdapter(springRepo);
+    }
+
+    @Bean
     UserDomainService createUserDomainService(UserRepositoryPort repo, CountryRepositoryPort countryRepo) {
         return new UserDomainService(repo, countryRepo);
     }
 
     @Bean
     CreateUserUseCase createUserUseCase(UserRepositoryPort repo, UserDomainService userDomainService,
-            CountryRepositoryPort countryRepo) {
+                                        CountryRepositoryPort countryRepo) {
         return new CreateUserUseCase(repo, userDomainService, countryRepo);
     }
 
@@ -75,7 +66,7 @@ public class BeansConfig {
 
     @Bean
     UpdateUserUseCase updateUserUseCase(UserRepositoryPort repo, CountryRepositoryPort countryRepo,
-            UserDomainService userDomainService) {
+                                        UserDomainService userDomainService) {
         return new UpdateUserUseCase(repo, countryRepo, userDomainService);
     }
 
@@ -132,5 +123,35 @@ public class BeansConfig {
     @Bean
     GetAllAssetUseCase getAllAssetUseCase(AssetRepositoryPort repo) {
         return new GetAllAssetUseCase(repo);
+    }
+
+    @Bean
+    CreatePositionUseCase createPositionUseCase(
+            PositionRepositoryPort positionRepositoryPort, UserRepositoryPort userRepositoryPort, AssetRepositoryPort assetRepositoryPort) {
+        return new CreatePositionUseCase(positionRepositoryPort, userRepositoryPort, assetRepositoryPort);
+    }
+
+    @Bean
+    UpdatePositionUseCase updatePositionUseCase(
+            PositionRepositoryPort positionRepositoryPort, UserRepositoryPort userRepositoryPort, AssetRepositoryPort assetRepositoryPort) {
+        return new UpdatePositionUseCase(positionRepositoryPort, userRepositoryPort, assetRepositoryPort);
+    }
+
+    @Bean
+    GetAllPositionUseCase getAllPositionUseCase(
+            PositionRepositoryPort positionRepositoryPort) {
+        return new GetAllPositionUseCase(positionRepositoryPort);
+    }
+
+    @Bean
+    GetByIdPositionUseCase getByIdPositionUseCase(
+            PositionRepositoryPort positionRepositoryPort) {
+        return new GetByIdPositionUseCase(positionRepositoryPort);
+    }
+
+    @Bean
+    DeletePositionUseCase deletePositionUseCase(
+            PositionRepositoryPort positionRepositoryPort) {
+        return new DeletePositionUseCase(positionRepositoryPort);
     }
 }
