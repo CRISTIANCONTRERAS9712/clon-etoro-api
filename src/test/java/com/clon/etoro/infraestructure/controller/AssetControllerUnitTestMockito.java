@@ -12,12 +12,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import com.clon.etoro.application.usecase.CreateAssetRequest;
+import com.clon.etoro.application.request.CreateAssetRequest;
+import com.clon.etoro.application.request.UpdateAssetRequest;
 import com.clon.etoro.application.usecase.CreateAssetUseCase;
 import com.clon.etoro.application.usecase.DeleteAssetUseCase;
 import com.clon.etoro.application.usecase.GetAllAssetUseCase;
 import com.clon.etoro.application.usecase.GetByIdAssetUseCase;
-import com.clon.etoro.application.usecase.UpdateAssetRequest;
 import com.clon.etoro.application.usecase.UpdateAssetUseCase;
 import com.clon.etoro.domain.model.Asset;
 

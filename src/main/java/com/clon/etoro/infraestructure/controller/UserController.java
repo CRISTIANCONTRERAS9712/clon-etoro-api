@@ -3,6 +3,9 @@ package com.clon.etoro.infraestructure.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.clon.etoro.application.request.CreateUserRequest;
+import com.clon.etoro.application.request.DeleteUserRequest;
+import com.clon.etoro.application.request.UpdateUserRequest;
 import com.clon.etoro.application.usecase.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -26,8 +29,8 @@ public class UserController {
 	private final GetAllUserUseCase getAllUsersUseCase;
 	private final UpdateUserUseCase updateUserUseCase;
 	private final GetByIdUserUseCase getByIdUserUseCase;
-    private final DeleteUserUseCase deleteUserUseCase;
-    
+	private final DeleteUserUseCase deleteUserUseCase;
+
 	/***
 	 * 
 	 * { "firstname": "Mateo", "lastname": "Corredor", "email": "m2@gmail.com",
@@ -54,13 +57,13 @@ public class UserController {
 		return updateUserUseCase.execute(request).map(ResponseEntity::ok);
 	}
 
-    @DeleteMapping("/delete")
-    public Mono<ResponseEntity<String>> delete(@RequestBody DeleteUserRequest request) {
-        return deleteUserUseCase.execute(request.getId())
-                .then(Mono.just(ResponseEntity.noContent().build()));
-    }
+	@DeleteMapping("/delete")
+	public Mono<ResponseEntity<String>> delete(@RequestBody DeleteUserRequest request) {
+		return deleteUserUseCase.execute(request.getId())
+				.then(Mono.just(ResponseEntity.noContent().build()));
+	}
 
-    @GetMapping("/hello")
+	@GetMapping("/hello")
 	public Mono<ResponseEntity<String>> hello() {
 		return Mono.just(ResponseEntity.ok("Hello netty!"));
 	}
@@ -71,8 +74,7 @@ public class UserController {
 				.map(ResponseEntity::ok)
 				.onErrorResume(
 						RuntimeException.class,
-						e -> Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
-				);
+						e -> Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).build()));
 	}
 
 	@GetMapping

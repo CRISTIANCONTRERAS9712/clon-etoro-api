@@ -2,6 +2,7 @@ package com.clon.etoro.application.usecase;
 
 import java.util.Optional;
 
+import com.clon.etoro.application.request.UpdateUserRequest;
 import com.clon.etoro.domain.model.Country;
 import com.clon.etoro.domain.model.User;
 import com.clon.etoro.domain.port.CountryRepositoryPort;
@@ -27,8 +28,7 @@ public class UpdateUserUseCase {
         Mono<Country> countryMono = userDomainService.resolveCountryIfProvided(request.getIsoCountry());
 
         // 3️⃣ Combinar usuario + país opcional y aplicar reglas
-        return userMono
-                .zipWith(countryMono)
+        return Mono.zip(userMono, countryMono)
                 .flatMap(tuple -> {
                     User user = tuple.getT1();
                     Country country = tuple.getT2();
@@ -36,7 +36,6 @@ public class UpdateUserUseCase {
                 })
                 // 4️⃣ Guardar usuario final
                 .flatMap(userRepo::save)
-
                 // 5️⃣ Consultar nuevamente el país completo ANTES de regresarlo al controller
                 .flatMap(savedUser -> {
 

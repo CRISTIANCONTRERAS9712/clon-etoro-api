@@ -8,14 +8,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-import com.clon.etoro.application.usecase.UpdateUserRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import com.clon.etoro.application.usecase.CreateUserRequest;
+import com.clon.etoro.application.request.CreateUserRequest;
+import com.clon.etoro.application.request.UpdateUserRequest;
 import com.clon.etoro.domain.model.Country;
 import com.clon.etoro.domain.model.User;
 import com.clon.etoro.domain.port.UserRepositoryPort;

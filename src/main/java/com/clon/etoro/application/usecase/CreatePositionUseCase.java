@@ -1,5 +1,6 @@
 package com.clon.etoro.application.usecase;
 
+import com.clon.etoro.application.request.CreatePositionRequest;
 import com.clon.etoro.domain.model.Asset;
 import com.clon.etoro.domain.model.Position;
 import com.clon.etoro.domain.model.User;

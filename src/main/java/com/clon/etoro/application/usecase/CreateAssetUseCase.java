@@ -1,6 +1,8 @@
 package com.clon.etoro.application.usecase;
 
 import lombok.RequiredArgsConstructor;
+
+import com.clon.etoro.application.request.CreateAssetRequest;
 import com.clon.etoro.domain.model.Asset;
 import com.clon.etoro.domain.port.AssetRepositoryPort;
 

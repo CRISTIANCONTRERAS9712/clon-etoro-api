@@ -1,5 +1,7 @@
 package com.clon.etoro.infraestructure.controller;
 
+import com.clon.etoro.application.request.CreateAssetRequest;
+import com.clon.etoro.application.request.UpdateAssetRequest;
 import com.clon.etoro.application.usecase.*;
 
 import org.springframework.http.HttpStatus;

@@ -1,5 +1,6 @@
 package com.clon.etoro.application.usecase;
 
+import com.clon.etoro.application.request.CreateCountryRequest;
 import com.clon.etoro.domain.model.Country;
 import com.clon.etoro.domain.model.User;
 import com.clon.etoro.domain.port.CountryRepositoryPort;

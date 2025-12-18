@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
+import com.clon.etoro.application.request.UpdateAssetRequest;
 import com.clon.etoro.domain.model.Asset;
 import com.clon.etoro.domain.port.AssetRepositoryPort;
 

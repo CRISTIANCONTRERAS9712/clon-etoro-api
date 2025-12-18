@@ -1,5 +1,7 @@
 package com.clon.etoro.infraestructure.controller;
 
+import com.clon.etoro.application.request.CreatePositionRequest;
+import com.clon.etoro.application.request.UpdatePositionRequest;
 import com.clon.etoro.application.usecase.*;
 
 import org.springframework.http.HttpStatus;

@@ -2,6 +2,7 @@ package com.clon.etoro.application.usecase;
 
 import java.util.Optional;
 
+import com.clon.etoro.application.request.UpdateCountryRequest;
 import com.clon.etoro.domain.model.Country;
 import com.clon.etoro.domain.port.CountryRepositoryPort;
 import lombok.RequiredArgsConstructor;

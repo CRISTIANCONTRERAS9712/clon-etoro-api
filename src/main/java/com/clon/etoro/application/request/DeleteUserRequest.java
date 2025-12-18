@@ -1,4 +1,4 @@
-package com.clon.etoro.application.usecase;
+package com.clon.etoro.application.request;
 
 import lombok.Data;
 
