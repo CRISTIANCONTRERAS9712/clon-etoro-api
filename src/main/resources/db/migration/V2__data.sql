@@ -13,3 +13,13 @@ INSERT INTO users (firstname, lastname, email, birthdate, password, cellphone, c
 INSERT INTO asset (ticker, "name", description, logo, price, active) VALUES
 ('GOOG', 'Google', 'Empresa Google', 'https://example.com/goog.png', '200', TRUE),
 ('META', 'Meta', 'Empresa Meta', 'https://example.com/meta.png', '700', TRUE);
+
+-- Datos iniciales de Propertie
+INSERT INTO propertie ("key", "value", active) VALUES
+('API_KEY', '123456', TRUE),
+('API_SECRET', '654321', TRUE);
+
+-- Datos iniciales de Position
+INSERT INTO position (units, buy_price, buy_date, user_id, asset_id) VALUES
+(10, 200, '2022-01-01', 1, 1),
+(20, 700, '2022-02-01', 1, 2);

@@ -38,3 +38,30 @@ CREATE TABLE asset (
     active BOOLEAN DEFAULT TRUE
 );
 
+--Tabla position
+CREATE TABLE position (
+    id SERIAL PRIMARY KEY,
+    units DECIMAL NOT NULL,
+    buy_price DECIMAL NOT NULL,
+    buy_date TIMESTAMP NOT NULL,
+    user_id BIGINT,
+    asset_id INT,
+    CONSTRAINT fk_position_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id_user)
+        ON UPDATE CASCADE
+        ON DELETE SET NULL,
+    CONSTRAINT fk_position_asset
+        FOREIGN KEY (asset_id)
+        REFERENCES asset(id)
+        ON UPDATE CASCADE
+        ON DELETE SET NULL
+);
+
+--Tabla propertie
+CREATE TABLE propertie (
+    id SERIAL PRIMARY KEY,
+    "key" VARCHAR(120) NOT NULL UNIQUE,
+    "value" VARCHAR(255) NOT NULL,
+    active BOOLEAN DEFAULT TRUE
+);

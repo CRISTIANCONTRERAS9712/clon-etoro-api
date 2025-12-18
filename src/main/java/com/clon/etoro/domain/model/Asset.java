@@ -15,4 +15,8 @@ public class Asset {
 	private String logo;
 	private String price;
 	private Boolean active;
+
+	public Asset(Long id) {
+		this.id = id;
+	}
 }

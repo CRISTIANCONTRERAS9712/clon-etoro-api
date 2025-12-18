@@ -18,4 +18,9 @@ public class User {
 	private String password;
 	private String cellphone;
 	private Country country;
+
+	public User(Long id) {
+		super();
+		this.id = id;
+	}
 }
