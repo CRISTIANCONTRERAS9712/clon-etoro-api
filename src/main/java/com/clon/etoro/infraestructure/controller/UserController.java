@@ -1,14 +1,11 @@
 package com.clon.etoro.infraestructure.controller;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import com.clon.etoro.application.request.CreateUserRequest;
 import com.clon.etoro.application.request.DeleteUserRequest;
 import com.clon.etoro.application.request.UpdateUserRequest;
 import com.clon.etoro.application.usecase.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,5 +78,17 @@ public class UserController {
 	public Mono<ResponseEntity<Flux<User>>> getAllUsers() {
 		Flux<User> users = getAllUsersUseCase.execute();
 		return Mono.just(ResponseEntity.ok(users));
+	}
+
+	/**
+	 * Metodo de ejemplo que devuelve lo mismo que getAllUsers() pero en formato
+	 * stream
+	 * 
+	 * @return
+	 */
+	@GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Flux<User> getAllUsersStream() {
+		// return getAllUsersUseCase.execute().delayElements(Duration.ofSeconds(2));
+		return getAllUsersUseCase.execute();
 	}
 }
